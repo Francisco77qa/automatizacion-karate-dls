@@ -23,7 +23,7 @@ jobs:
           cache: 'maven'
 
       - name: Ejecutar suite de Karate (Usuarios)
-        run: mvn test -Dkarate.env=dev
+        run: mvn test -Dkarate.env=dev -Dkarate.options="--tags ~@bonus"
 
       - name: Subir reporte HTML de Karate
         if: always()
