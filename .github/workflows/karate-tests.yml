@@ -1,0 +1,42 @@
+name: Karate Tests - API Usuarios ServeRest
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout del codigo
+        uses: actions/checkout@v4
+
+      - name: Configurar JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: 'maven'
+
+      - name: Ejecutar suite de Karate (Usuarios)
+        run: mvn test -Dkarate.env=dev
+
+      - name: Subir reporte HTML de Karate
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: karate-report
+          path: target/karate-reports/
+          retention-days: 15
+
+      - name: Subir reportes de Surefire
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: surefire-reports
+          path: target/surefire-reports/
+          retention-days: 15
