@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.serverest.tests</groupId>
+    <artifactId>serverest-karate-usuarios</artifactId>
+    <version>1.0.0</version>
+    <packaging>jar</packaging>
+
+    <name>ServeRest - Suite de pruebas API Usuarios (Karate DSL)</name>
+    <description>
+        Suite de pruebas automatizadas con Karate DSL para la API de Usuarios
+        de ServeRest (https://serverest.dev), cubriendo operaciones CRUD,
+        validacion de esquema JSON y escenarios positivos/negativos.
+    </description>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+
+        <!--
+            Karate v1.x se publica bajo el groupId "io.karatelabs" desde que el
+            proyecto se renombro (antes "com.intuit.karate"). karate-junit5 ya
+            incluye JUnit 5 como dependencia transitiva, por lo que no es
+            necesario declararlo aparte.
+            Verifica si existe una version mas reciente en:
+            https://central.sonatype.com/artifact/io.karatelabs/karate-junit5
+        -->
+        <karate.version>1.5.2</karate.version>
+        <surefire.version>3.2.5</surefire.version>
+    </properties>
+
+    <dependencies>
+        <dependency>
+            <groupId>io.karatelabs</groupId>
+            <artifactId>karate-junit5</artifactId>
+            <version>${karate.version}</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${surefire.version}</version>
+                <configuration>
+                    <!-- Permite forwardear -Dkarate.env=... y -Dkarate.options=... al runner -->
+                    <argLine>-Dfile.encoding=UTF-8</argLine>
+                    <includes>
+                        <include>**/*Runner.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
